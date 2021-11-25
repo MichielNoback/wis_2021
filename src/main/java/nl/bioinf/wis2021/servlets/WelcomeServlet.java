@@ -1,6 +1,7 @@
 package nl.bioinf.wis2021.servlets;
 
 import nl.bioinf.wis2021.config.WebConfig; //change to your situation!
+import nl.bioinf.wis2021.model.User;
 import org.thymeleaf.context.WebContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -33,6 +34,8 @@ public class WelcomeServlet extends HttpServlet {
     public void process(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         //this step is optional; standard settings also suffice
+        final String role = request.getParameter("role");
+        System.out.println("role = " + role);
         WebConfig.configureResponse(response);
         WebContext ctx = new WebContext(
                 request,
@@ -40,6 +43,7 @@ public class WelcomeServlet extends HttpServlet {
                 request.getServletContext(),
                 request.getLocale());
         ctx.setVariable("currentDate", new Date());
+        ctx.setVariable("user", new User("Nihil", "Nobrain", 50));
         WebConfig.createTemplateEngine(getServletContext()).
                 process("welcome", ctx, response.getWriter());
     }
