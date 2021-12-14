@@ -9,9 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
-@WebServlet(name = "WelcomeServlet", urlPatterns = "/welcome", loadOnStartup = 1)
+@WebServlet(name = "WelcomeServlet",
+        urlPatterns = {"/welcome", "/home", "/index.html"})
 public class WelcomeServlet extends HttpServlet {
 
     @Override
@@ -24,10 +26,13 @@ public class WelcomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+
         process(request, response);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        final String remoteAddr = request.getRemoteAddr();
+        System.out.println("remoteAddr = " + remoteAddr);
         process(request, response);
     }
 
@@ -36,6 +41,10 @@ public class WelcomeServlet extends HttpServlet {
         //this step is optional; standard settings also suffice
         final String role = request.getParameter("role");
         System.out.println("role = " + role);
+
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(300);
+
         WebConfig.configureResponse(response);
         WebContext ctx = new WebContext(
                 request,

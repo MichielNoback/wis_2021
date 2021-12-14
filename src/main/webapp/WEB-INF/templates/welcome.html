@@ -10,5 +10,13 @@
 <p th:text="${'your role is ' + param.role}">Welcome Offline</p>
 <!-- date forwarded from the servlet-->
 <p>Date: <span th:text="${currentDate}">Sat Oct 24 2015</span></p>
+
+
+<h5 th:text="${'please contact at ' + #servletContext.getInitParameter('admin_email')}"></h5>
+
+<h4> have a look at this nice bird:</h4>
+<img th:src="@{pics/dwergaalscholver.jpg}">
+
+<a th:href="@{welcome}">please click</a>
 </body>
 </html>
